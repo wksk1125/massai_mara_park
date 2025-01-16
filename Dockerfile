@@ -3,10 +3,13 @@ FROM gradle:8.12-jdk17-alpine AS build
 
 WORKDIR /app
 
-COPY /app/build.gradle .
-COPY /app/settings.gradle .
-COPY /app/src ./src
+# gradle 캐시를 활용하기 위해 필요한파일 먼저 복사
+COPY build.gradle settings.gradle /app/
+COPY gradle /app/gradle/
+RUN gradle dependencies --no-daemon
 
+# 소스코드 복사 및 빌드
+COPY src /app
 RUN gradle build --no-daemon -x test
 
 # 실행 단계
