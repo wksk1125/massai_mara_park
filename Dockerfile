@@ -10,7 +10,7 @@ RUN gradle dependencies --no-daemon
 
 # 소스코드 복사 및 빌드
 COPY src /app
-RUN gradle build --no-daemon -x test
+RUN gradle bootJar --no-daemon -x test
 
 # 실행 단계
 FROM amazoncorretto:17-alpine
